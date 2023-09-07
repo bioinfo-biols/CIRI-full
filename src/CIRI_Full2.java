@@ -6,7 +6,7 @@ public class CIRI_Full2 {
 	public static void main(String[] args) throws InterruptedException, IOException {
 		
 		long tstart = System.currentTimeMillis();
-		String v="Version: 2.0.1";
+		String v="Version: 2.1.2";
 		String dir=System.getProperty("user.dir");
 		int a=args.length;
 		int help=0;

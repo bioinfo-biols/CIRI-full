@@ -36,7 +36,7 @@ public class Merge3 {
 		        Map<String,List<String>> mapchr=new HashMap<String,List<String>>();
 		        Map<String,List<int[]>> mapchr2=new HashMap<String,List<int[]>>();
 		        ArrayList<String> q1= new ArrayList<String>();
-
+		        int ifgtf=1;
 		        if(!gtf.equals("")){
 		        	FileReader in=new FileReader(gtf);
 		        	LineNumberReader reader=new LineNumberReader(in);
@@ -103,6 +103,7 @@ public class Merge3 {
 		        System.out.println("Annotation Loaded");
 		        }
 		        else{
+		        	ifgtf=0;
 			        System.out.println("Annotation file not set");
 		        }
 		        //Load_CIRI_AS
@@ -236,7 +237,7 @@ public class Merge3 {
 		    			if(in_c==i){
 						int n1=0;
 		    			while(n1<tmp2.length){
-		            		if(tmpa1[4].equals("")!=true){
+		            		if(tmpa1[4].equals("")!=true && tmpa1[4].equals("n/a")!=true){
 		            			String[] exon=tmpa1[4].split(",");
 		            			i=0;
 		    					while(i<exon.length){
@@ -785,8 +786,11 @@ public class Merge3 {
 		        String outline;
 		        while(i<total){
 		        	outline=chr[i]+":"+start[i]+"|"+end[i]+"	"+chr[i]+"	"+start[i]+"	"+end[i]+"	";
-		        	Exon_gtf test=new Exon_gtf(start[i],end[i],mapchr2.get(chr[i]));
-		        	List<int[]> gtf_exon=test.get_exon();
+		        	List<int[]> gtf_exon = new ArrayList<int[]>();
+		        	if(ifgtf==1) {
+		        		Exon_gtf test=new Exon_gtf(start[i],end[i],mapchr2.get(chr[i]));
+		        		gtf_exon=test.get_exon();
+		        	}
 		            Iterator<int[]> gtfexon=gtf_exon.iterator();
 		            int dd=0;
 		            
