@@ -149,15 +149,29 @@ public class CIRI_Full2 {
 		        writeStream1.newLine();
 		        	writeStream1.write("bwa mem -T 19 -t "+t+" "+ref+" "+read1+" "+read2+" > "+workdir+"/sam/"+prefix+"_ciri.sam");
 		        	writeStream1.newLine();
-		        if(z.indexOf("-0")!=-1){
-			        writeStream1.write("perl "+cdir+ciri+" -I "+workdir+"/sam/"+prefix+"_ciri.sam -O "+workdir+"/CIRI_output/"+prefix+".ciri -F "+ref+" -A "+anno+" -T "+t+" -0");
-		        }
-		        else{
-			        writeStream1.write("perl "+cdir+ciri+" -I "+workdir+"/sam/"+prefix+"_ciri.sam -O "+workdir+"/CIRI_output/"+prefix+".ciri -F "+ref+" -A "+anno+" -T "+t);
-	
-		        }
+		        
+                if (!anno.equals("")) {
+                    if(z.indexOf("-0")!=-1){
+			            writeStream1.write("perl "+cdir+ciri+" -I "+workdir+"/sam/"+prefix+"_ciri.sam -O "+workdir+"/CIRI_output/"+prefix+".ciri -F "+ref+" -A "+anno+" -T "+t+" -0");
+    		        }
+		            else {
+    			        writeStream1.write("perl "+cdir+ciri+" -I "+workdir+"/sam/"+prefix+"_ciri.sam -O "+workdir+"/CIRI_output/"+prefix+".ciri -F "+ref+" -A "+anno+" -T "+t);
+       		        }
+                } else {
+                    if(z.indexOf("-0")!=-1){
+                        writeStream1.write("perl "+cdir+ciri+" -I "+workdir+"/sam/"+prefix+"_ciri.sam -O "+workdir+"/CIRI_output/"+prefix+".ciri -F "+ref+" -T "+t+" -0");
+                    }
+                    else {
+                        writeStream1.write("perl "+cdir+ciri+" -I "+workdir+"/sam/"+prefix+"_ciri.sam -O "+workdir+"/CIRI_output/"+prefix+".ciri -F "+ref+" -T "+t);
+                    }
+                }
+
 		        writeStream1.newLine();
-		        writeStream1.write("perl "+cdir+as+" -S "+workdir+"/sam/"+prefix+"_ciri.sam -C "+workdir+"/CIRI_output/"+prefix+".ciri -F "+ref+" -A "+anno+" -O "+workdir+"/CIRI-AS_output/"+prefix+" -D yes");
+                if (!anno.equals("")) {
+		            writeStream1.write("perl "+cdir+as+" -S "+workdir+"/sam/"+prefix+"_ciri.sam -C "+workdir+"/CIRI_output/"+prefix+".ciri -F "+ref+" -A "+anno+" -O "+workdir+"/CIRI-AS_output/"+prefix+" -D yes");
+                } else {
+                    writeStream1.write("perl "+cdir+as+" -S "+workdir+"/sam/"+prefix+"_ciri.sam -C "+workdir+"/CIRI_output/"+prefix+".ciri -F "+ref+" -O "+workdir+"/CIRI-AS_output/"+prefix+" -D yes");
+                }
 		        writeStream1.close();
 		        String[] ciri_c={"sh",workdir+"/tmp1.sh"};
 		        Process cirip= Runtime.getRuntime().exec(ciri_c);
